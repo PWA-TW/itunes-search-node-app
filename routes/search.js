@@ -7,9 +7,9 @@ router.route('/search')
         const media = req.query.media;
         const term = req.query.term;
         const url = `${config.itunesApi}?media=${media}&term=${term}`;
-        request(url, {json: true}, (err, searchResult) => {
+        request(url, {json: true}, (err, ituneResponse) => {
             if(err) throw err;
-            res.json(searchResult);
+            res.json(ituneResponse.body);
         })
     });
 
