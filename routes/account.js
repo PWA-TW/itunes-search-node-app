@@ -35,8 +35,15 @@ router.post('/signup', (req, res, next) => {
 
 
 router.post('/login', (req, res) => {
-    User.findOne({email: req.body.email}, (err, existingUser) => {
-        if(err) throw err;
+    User.findOne({
+        email: req.body.email
+    }, function(err, existingUser) {
+        if(err) {
+            res.json({
+                success: false,
+                message: err
+            });
+        };
 
         if(!existingUser){
             res.json({
@@ -66,7 +73,7 @@ router.post('/login', (req, res) => {
                 });
             }
         }        
-    })
+    });
 });
 
 module.exports = router;
