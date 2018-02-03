@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const config = require('./config');
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(morgan('dev'));
+app.use(cors());
 
 const userRoutes = require('./routes/account');
 const favoriteRoutes = require('./routes/favorite');
