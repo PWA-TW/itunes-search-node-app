@@ -28,7 +28,8 @@ const searchRoutes = require('./routes/search');
 app.use('/api/accounts', userRoutes);
 app.use('/api', favoriteRoutes);
 app.use('/api', searchRoutes);
+const port = process.env.PORT || config.port;
 
-app.listen(config.port, () => {
-    console.log('running on ' + config.port);
+app.listen(port, () => {
+    console.log('running on ' + port);
 });
