@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const FavoriteSchema = new Schema({
-    addedBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+    count: Number,
+    collectionId: {
+        type: Number,
+        required: true
     },
+    collectionName: String,
     artistName: String,
     artistViewUrl: String,
     artworkUrl60: String,

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const checkJwt = require('../middlewares/check-jwt');
 const Favorite = require('../models/favorite');
 
-router.route('/favorite')
+router.route('/upvote')
     .get((req, res) => {
         Favorite
             .find({})
@@ -19,20 +19,42 @@ router.route('/favorite')
             });
     })
     .post(checkJwt, (req, res) => {
-        let favorite = new Favorite();
-        favorite.artistName = req.body.artistName;
-        favorite.artistViewUrl = req.body.artistViewUrl;
-        favorite.artworkUrl60 = req.body.artworkUrl60;
-        favorite.artworkUrl100 = req.body.artworkUrl100;
-        favorite.description = req.body.description;
-        favorite.kind = req.body.kind;
-        favorite.genres = req.body.genres;
-        favorite.addedBy = req.decoded.user._id;
-        favorite.save();
-        res.json({
-            success: true,
-            message: 'Added to Favorites'
+
+        Favorite.findOne({collectionId: req.body.collectionId}, (err, existingCollection) => {
+            if(err){
+                res.json({
+                    success: false,
+                    message: 'Unknown error'
+                });
+            }
+            if(existingCollection){
+                existingCollection.count = existingCollection.count + 1;
+                existingCollection.save();
+                return res.json({
+                    success: true,
+                    message: 'Added successfully'
+                });
+            }
+            else {
+                let favorite = new Favorite();
+                favorite.collectionId = req.body.collectionId;
+                favorite.collectionName = req.body.collectionName;
+                favorite.artistName = req.body.artistName;
+                favorite.artistViewUrl = req.body.artistViewUrl;
+                favorite.artworkUrl60 = req.body.artworkUrl60;
+                favorite.artworkUrl100 = req.body.artworkUrl100;
+                favorite.description = req.body.description;
+                favorite.kind = req.body.kind;
+                favorite.genres = req.body.genres;
+                favorite.count = 1;
+                favorite.save();
+                res.json({
+                    success: true,
+                    message: 'Added to Favorites'
+                });
+            }
         });
+        
     });
 
 module.exports = router;
