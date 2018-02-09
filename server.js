@@ -3,7 +3,10 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const pushUtil = require('./push');
 
+pushUtil.init();
+const decodedVapidPublicKey =  pushUtil.getDecodedPublicVapidKey();
 const config = require('./config');
 
 const app = express();
@@ -27,6 +30,21 @@ app.use(cors());
 const userRoutes = require('./routes/account');
 const favoriteRoutes = require('./routes/favorite');
 const searchRoutes = require('./routes/search');
+
+app.get('/api/getvapidkey', (req, res) => {
+    res.json({
+        key: decodedVapidPublicKey
+    });
+});
+
+app.post('/api/subscribe', (req, res) => {
+    pushUtil.addSubscription(req.body.subscription);
+    res.json({
+        success: true,
+        message: 'Subscribed'
+    });
+});
+
 app.use('/api/accounts', userRoutes);
 app.use('/api', favoriteRoutes);
 app.use('/api', searchRoutes);

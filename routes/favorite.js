@@ -1,6 +1,8 @@
 const router = require('express').Router();
+const webpush = require('web-push');
 const checkJwt = require('../middlewares/check-jwt');
 const Favorite = require('../models/favorite');
+const pushUtil = require('../push');
 
 router.route('/upvote')
     .get((req, res) => {
@@ -22,7 +24,7 @@ router.route('/upvote')
 
         Favorite.findOne({collectionId: req.body.collectionId}, (err, existingCollection) => {
             if(err){
-                res.json({
+                return res.json({
                     success: false,
                     message: 'Unknown error'
                 });
@@ -53,6 +55,7 @@ router.route('/upvote')
                     message: 'Added to Favorites'
                 });
             }
+            pushUtil.sendNotification('Added to favorites');
         });
         
     });
