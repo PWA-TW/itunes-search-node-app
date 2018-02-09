@@ -7,8 +7,8 @@ exports.init = () => {
     vapidKeys = webpush.generateVAPIDKeys();    
 };
 
-exports.getDecodedPublicVapidKey = () => {
-    return urlsafeBase64.decode(vapidKeys.publicKey);
+exports.getPublicVapidKey = () => {
+    return vapidKeys.publicKey;
 };
 
 exports.sendNotification = (message) => {

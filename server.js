@@ -6,7 +6,7 @@ const cors = require('cors');
 const pushUtil = require('./push');
 
 pushUtil.init();
-const decodedVapidPublicKey =  pushUtil.getDecodedPublicVapidKey();
+const publicKey =  pushUtil.getPublicVapidKey();
 const config = require('./config');
 
 const app = express();
@@ -33,7 +33,7 @@ const searchRoutes = require('./routes/search');
 
 app.get('/api/getvapidkey', (req, res) => {
     res.json({
-        key: decodedVapidPublicKey
+        key: publicKey
     });
 });
 
