@@ -11,13 +11,13 @@ router.route('/upvote')
             .populate({path: 'addedBy', select: 'email _id'})
             .exec((err, favorites) => {
                 if(err) throw err;
-    
+
                 res.json({
                     success: true,
                     message: "",
                     favorites: favorites
                 });
-    
+
             });
     })
     .post(checkJwt, (req, res) => {
@@ -55,10 +55,13 @@ router.route('/upvote')
                     message: 'Added to Favorites'
                 });
             }
-            const pushMsg = `${req.decoded.user.email} has upvoted ${req.body.collectionName}`;
-            pushUtil.sendNotification(pushMsg);
+            const pushMsg = {
+                userID: req.decoded.user.email,
+                favorite: {...req.body}
+            };
+            pushUtil.sendNotification(JSON.stringify(pushMsg));
         });
-        
+
     });
 
 module.exports = router;

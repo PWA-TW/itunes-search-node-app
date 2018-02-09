@@ -4,7 +4,7 @@ let vapidKeys;
 let subscriptions = [];
 
 exports.init = () => {
-    vapidKeys = webpush.generateVAPIDKeys();    
+    vapidKeys = webpush.generateVAPIDKeys();
 };
 
 exports.getPublicVapidKey = () => {
@@ -12,7 +12,6 @@ exports.getPublicVapidKey = () => {
 };
 
 exports.sendNotification = (message) => {
-    console.log("message", message)
     const options = {
         TTL: 24 * 60 * 60,
         vapidDetails: {
@@ -22,7 +21,6 @@ exports.sendNotification = (message) => {
         }
     };
     subscriptions.forEach((subscription) => {
-        console.log("message", subscription);
         webpush.sendNotification(
             subscription,
             message,
