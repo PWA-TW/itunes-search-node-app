@@ -12,15 +12,17 @@ exports.getPublicVapidKey = () => {
 };
 
 exports.sendNotification = (message) => {
+    console.log("message", message)
     const options = {
         TTL: 24 * 60 * 60,
         vapidDetails: {
-            subject: 'mailto:tw@localhost',
+            subject: 'mailto:tw@localhost:3040',
             publicKey: vapidKeys.publicKey,
             privateKey: vapidKeys.privateKey
         }
     };
     subscriptions.forEach((subscription) => {
+        console.log("message", subscription);
         webpush.sendNotification(
             subscription,
             message,

@@ -30,6 +30,7 @@ app.use(cors());
 const userRoutes = require('./routes/account');
 const favoriteRoutes = require('./routes/favorite');
 const searchRoutes = require('./routes/search');
+const subscriptionRoutes = require('./routes/subscription');
 
 app.get('/api/getvapidkey', (req, res) => {
     res.json({
@@ -37,17 +38,10 @@ app.get('/api/getvapidkey', (req, res) => {
     });
 });
 
-app.post('/api/subscribe', (req, res) => {
-    pushUtil.addSubscription(req.body.subscription);
-    res.json({
-        success: true,
-        message: 'Subscribed'
-    });
-});
-
 app.use('/api/accounts', userRoutes);
 app.use('/api', favoriteRoutes);
 app.use('/api', searchRoutes);
+app.use('/api', subscriptionRoutes);
 const port = process.env.PORT || config.port;
 
 app.listen(port, () => {

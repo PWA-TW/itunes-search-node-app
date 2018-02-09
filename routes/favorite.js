@@ -32,7 +32,7 @@ router.route('/upvote')
             if(existingCollection){
                 existingCollection.count = existingCollection.count + 1;
                 existingCollection.save();
-                return res.json({
+                res.json({
                     success: true,
                     message: 'Added successfully'
                 });
@@ -55,7 +55,8 @@ router.route('/upvote')
                     message: 'Added to Favorites'
                 });
             }
-            pushUtil.sendNotification('Added to favorites');
+            const pushMsg = `${req.decoded.user.email} has upvoted ${req.body.collectionName}`;
+            pushUtil.sendNotification(pushMsg);
         });
         
     });
