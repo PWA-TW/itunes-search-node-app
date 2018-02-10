@@ -41,6 +41,7 @@ router.route('/upvote')
                 let favorite = new Favorite();
                 favorite.collectionId = req.body.collectionId;
                 favorite.collectionName = req.body.collectionName;
+                favorite.collectionViewUrl = req.body.collectionViewUrl;
                 favorite.artistName = req.body.artistName;
                 favorite.artistViewUrl = req.body.artistViewUrl;
                 favorite.artworkUrl60 = req.body.artworkUrl60;

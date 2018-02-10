@@ -9,6 +9,7 @@ const FavoriteSchema = new Schema({
         required: true
     },
     collectionName: String,
+    collectionViewUrl: String,
     artistName: String,
     artistViewUrl: String,
     artworkUrl60: String,
